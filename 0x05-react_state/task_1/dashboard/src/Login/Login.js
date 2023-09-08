@@ -1,103 +1,67 @@
-import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, css } from "aphrodite";
 
-class Login extends React.Component {
-	constructor(props) {
-		super(props);
+function Login() {
 
-		this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
-		this.handleChangeEmail = this.handleChangeEmail.bind(this);
-		this.handleChangePassword = this.handleChangePassword.bind(this);
-		this.state = {
-			isLoggedIn: false,
-			email: '',
-			password: '',
-			enableSubmit: false,
-		};
-	}
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [enableSubmit, setEnableSubmit] = useState(false);
 
-	handleLoginSubmit(e) {
-		e.preventDefault();
-		this.setState({ isLoggedIn: true });
-	}
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    setIsLoggedIn(true);
+  };
 
-	handleChangeEmail(event) {
-		this.setState({ email: event.target.value });
-		this.state.email !== '' && this.state.password !== ''
-			? this.setState({ enableSubmit: true })
-			: this.setState({ enableSubmit: false });
-	}
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
 
-	handleChangePassword(event) {
-		this.setState({ password: event.target.value });
-		this.state.email !== '' && this.state.password !== ''
-			? this.setState({ enableSubmit: true })
-			: this.setState({ enableSubmit: false });
-	}
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
-	render() {
-		return (
-			<>
-				<div className={css(styles.appBody, styles.small)}>
-					<h1>Log in to continue</h1>
-					<p>Login to access the full dashboard</p>
-					<form onSubmit={this.handleLoginSubmit}>
-						<label htmlFor='email'>Email: </label>
-						<input
-							className={css(styles.noBorder)}
-							type='email'
-							id='email'
-							name='email'
-							onChange={this.handleChangeEmail}
-							value={this.state.email}
-						/>
-						<label htmlFor='password'>Password: </label>
-						<input
-							className={css(styles.noBorder)}
-							type='password'
-							id='password'
-							name='password'
-							onChange={this.handleChangePassword}
-							value={this.state.password}
-						/>
-						<input
-							className={css(styles.yellowBorder)}
-							type='submit'
-							value='OK'
-							disabled={!this.state.enableSubmit}
-						/>
-					</form>
-				</div>
-			</>
-		);
-	}
+  useEffect(() => {
+    if (email !== "" && password !="") {
+      setEnableSubmit(true);
+    } else {
+      if (enableSubmit !== false) {
+        setEnableSubmit(false);
+      }
+    }
+  }, [email, password]);
+
+  return (
+    <React.Fragment>
+      <div className={css(styles["App-body"])}>
+        <p>Login to access the full dashboard</p>
+        <form onSubmit={handleLoginSubmit}>
+          <label htmlFor="email">Email:</label>
+          <input className={css(styles.input)} type="email" name="email" onChange={handleChangeEmail}></input>
+          <label htmlFor="password">Password:</label>
+          <input className={css(styles.input)} type="password" name="password" onChange={handleChangePassword}></input>
+          <input type="submit" value="OK" disabled={!enableSubmit}></input>
+          
+        </form>
+      </div>
+    </React.Fragment>
+  );
 }
 
 const styles = StyleSheet.create({
-	appBody: {
-		minHeight: '50vh',
-		textAlign: 'left',
-		marginTop: '2rem',
-		marginLeft: '2rem',
-	},
-	small: {
-		'@media (max-width: 900px)': {
-			display: 'grid',
-			justifyContent: 'center',
-		},
-	},
-	noBorder: {
-		'@media (max-width: 900px)': {
-			border: 'none',
-		},
-	},
-	yellowBorder: {
-		'@media (max-width: 900px)': {
-			border: '2px solid gold',
-			backgroundColor: 'transparent',
-			width: '5vw',
-		},
-	},
+  "App-body": {
+    fontSize: "1rem",
+    padding: "2em",
+    height: "45%",
+    "@media (max-width: 900px)": {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+
+  input: {
+    margin: "10px",
+  },
 });
 
 export default Login;

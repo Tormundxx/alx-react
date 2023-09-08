@@ -1,13 +1,15 @@
-import { List, Map } from 'immutable';
+import { Map, List } from 'immutable';
 
-export const concatElements = (page1, page2) => {
-  const listP1 = List(page1);
-  const listP2 = List(page2);
-  return listP1.concat(listP2);
-};
+export function concatElements(page1, page2) {
+  const list1 = List(page1);
+  const list2 = List(page2);
 
-export const mergeElements = (page1, page2) => {
-  const mapP1 = Map(page1);
-  const mapP2 = Map(page2);
-  return mapP1.merge(mapP2);
-};
+  return list1.concat(list2);
+}
+
+export function mergeElements(page1, page2) {
+  const map1 = Map(page1);
+  const map2 = Map(page2);
+
+  return map1.merge(map2);
+}
